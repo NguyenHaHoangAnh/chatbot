@@ -1,0 +1,22 @@
+<div class="wrapper">
+    <div class="container d-flex flex-column align-items-center py-2">
+        <div class="header"></div>
+        <div class="content flex-fill w-100">
+            <ul class="d-flex flex-column list-unstyled w-100" *ngIf="messages.length > 0">
+                <li class="message mb-2 p-2 align-self-end rounded-4 bg-info text-white" *ngFor="let message of messages">{{message}}</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="d-flex">
+                <button class="btn d-flex justify-content-center align-items-center rounded-circle border-0" pButton pRipple icon="pi pi-microphone" (click)="startRecording()"></button>
+                <input
+                    [(ngModel)]="message"
+                    class="p-2 rounded-pill"
+                    type="text"
+                    placeholder="Nhập câu hỏi..."
+                >
+                <button class="btn d-flex justify-content-center align-items-center rounded-circle border-0" pButton pRipple icon="pi pi-send" (click)="handleSubmit()" [disabled]="!message" size="small"></button>
+            </div>
+        </div>
+    </div>
+</div>
