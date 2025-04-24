@@ -1,22 +1,84 @@
 <div class="wrapper">
-    <div class="container d-flex flex-column align-items-center py-2">
-        <div class="header"></div>
-        <div class="content flex-fill w-100">
-            <ul class="d-flex flex-column list-unstyled w-100" *ngIf="messages.length > 0">
-                <li class="message mb-2 p-2 align-self-end rounded-4 bg-info text-white" *ngFor="let message of messages">{{message}}</li>
-            </ul>
-        </div>
-        <div class="footer">
-            <div class="d-flex">
-                <button class="btn d-flex justify-content-center align-items-center rounded-circle border-0" pButton pRipple icon="pi pi-microphone" (click)="startRecording()"></button>
-                <input
-                    [(ngModel)]="message"
-                    class="p-2 rounded-pill"
-                    type="text"
-                    placeholder="Nhập câu hỏi..."
-                >
-                <button class="btn d-flex justify-content-center align-items-center rounded-circle border-0" pButton pRipple icon="pi pi-send" (click)="handleSubmit()" [disabled]="!message" size="small"></button>
-            </div>
+    <div class="container flex flex-col items-center">
+        <div class="header py-4 w-full h-[72px] bg-blue-500 text-center text-white text-4xl">Trò chuyện với Bot</div>
+        <div class="flex w-full h-[calc(100%-72px)] gap-4 p-4 bg-gray-100">
+            <p-card class="min-w-[40%]" *ngIf="voices.length > 0">
+                <label class="mb-2" for="voice">Chọn giọng nói</label>
+                <p-dropdown
+                    id="voice"
+                    [options]="voices" 
+                    [(ngModel)]="voice" 
+                    optionLabel="name"
+                    placeholder="Chọn giọng nói" 
+                />
+            </p-card>
+            <p-card class="flex flex-col min-w-[calc(60%-16px)]">
+                <div #content class="flex-1 p-2 w-full overflow-y-auto">
+                    <div class="flex flex-col w-full" *ngIf="messages.length > 0">
+                        <div [ngClass]="{'user': message?.role === 'user'}" class="mb-4" *ngFor="let message of messages" >
+                            <div class="flex items-center mb-2" *ngIf="message?.role !== 'user'">
+                                <img class="mr-2 w-8 h-8 rounded-full border-[1px] border-solid" src="../../../assets/images/bot.png" alt="bot">
+                                <span>Bot</span>
+                            </div>
+                            <div 
+                                [ngClass]="{'user': message?.role === 'user'}" 
+                                class="flex flex-col [&.user]:justify-self-end p-2 w-fit max-w-[70%] min-h-10 rounded-lg bg-gray-100 text-black [&.user]:bg-blue-500 [&.user]:text-white whitespace-pre-line"
+                                pTooltip="{{message?.date | dateFormat}}"
+                                tooltipPosition="{{message?.role === 'user' ? 'left' : 'right'}}"
+                            >
+                                <p>{{message?.content}}</p>
+                                <button 
+                                    *ngIf="message?.role !== 'user'"
+                                    class="self-end mt-4 !w-6 !h-6 text-[18px] rounded-full bg-transparent hover:!bg-transparent !text-black" 
+                                    pButton pRipple 
+                                    icon="pi pi-volume-up"
+                                    (click)="read(message.content, voice)"
+                                ></button>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-2" *ngIf="isLoading">
+                            <img class="mr-2 w-8 h-8 rounded-full border-[1px] border-solid" src="../../../assets/images/bot.png" alt="bot">
+                            <span>Bot</span>
+                        </div>
+                        <div class="flex items-center mb-4 p-2 w-fit max-w-[70%] min-h-10 rounded-lg bg-gray-100 text-black" *ngIf="isLoading">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 w-full">
+                    <div class="flex items-end gap-2 w-full">
+                        <div [ngClass]="{'disabled': isLoading}" class="text-wrapper flex flex-1 p-[8px_20px] rounded-[20px] border-[1px] border-solid">
+                            <textarea
+                                #textarea
+                                pInputTextarea
+                                [(ngModel)]="message"
+                                class="flex-1 max-h-[120px] border-none outline-none bg-transparent overflow-y-auto [&.overflow]:!overflow-y-scroll resize-none"
+                                [ngClass]="{'overflow': textarea.offsetHeight >= 120}"
+                                type="text"
+                                rows="1"
+                                [autoResize]="true"
+                                placeholder="Nhập câu hỏi..."
+                                [disabled]="isLoading"
+                                (keypress)="onKeyPress($event)"
+                            ></textarea>
+                        </div>
+                        <button 
+                            class="!w-10 !h-10 text-[20px] rounded-full" 
+                            pButton pRipple 
+                            icon="{{isRecording ? 'pi pi-stop-circle' : 'pi pi-microphone'}}"
+                            (click)="toggleRecording()" 
+                            [disabled]="isLoading"
+                        ></button>
+                        <button 
+                            class="!w-10 !h-10 text-[20px] rounded-full" 
+                            pButton pRipple 
+                            icon="pi pi-send"
+                            (click)="handleSubmit()" 
+                            [disabled]="!message"
+                        ></button>
+                    </div>
+                </div>
+            </p-card>
         </div>
     </div>
 </div>
