@@ -1,0 +1,24 @@
+<p-table 
+    [columns]="columns" 
+    [value]="data" 
+    [resizableColumns]="true"
+    *ngIf="data; else nodata"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th></th>
+            <th *ngFor="let col of columns">
+                {{col}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-columns="columns" let-index="rowIndex">
+        <tr>
+            <td>{{index}}</td>
+            <td *ngFor="let col of columns">
+                {{item[col]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<ng-template #nodata>Không có data.</ng-template>

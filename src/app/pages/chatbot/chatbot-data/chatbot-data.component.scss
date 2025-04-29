@@ -1,0 +1,6 @@
+::ng-deep .p-datatable {
+    & th,
+    & td {
+        padding: 8px !important;
+    }
+}

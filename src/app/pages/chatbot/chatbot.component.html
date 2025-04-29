@@ -1,6 +1,9 @@
 <div class="wrapper">
     <div class="container flex flex-col items-center">
-        <div class="header py-4 w-full h-[72px] bg-blue-500 text-center text-white text-4xl">Trò chuyện với Bot</div>
+        <div class="flex items-center gap-4 p-4 w-full h-[72px] bg-blue-500">
+            <img class="h-8" src="./assets/images/logo.png" alt="logo">
+            <h3 class="text-white text-4xl font-bold">Trợ lý quản lý trại giam</h3>
+        </div>
         <div class="flex w-full h-[calc(100%-72px)] gap-4 p-4 bg-gray-100">
             <p-card class="min-w-[40%]" *ngIf="voices.length > 0">
                 <label class="mb-2" for="voice">Chọn giọng nói</label>
@@ -15,9 +18,9 @@
             <p-card class="flex flex-col min-w-[calc(60%-16px)]">
                 <div #content class="flex-1 p-2 w-full overflow-y-auto">
                     <div class="flex flex-col w-full" *ngIf="messages.length > 0">
-                        <div [ngClass]="{'user': message?.role === 'user'}" class="mb-4" *ngFor="let message of messages" >
+                        <div [ngClass]="{'user': message?.role === 'user'}" class="mb-4" *ngFor="let message of messages; index as i" >
                             <div class="flex items-center mb-2" *ngIf="message?.role !== 'user'">
-                                <img class="mr-2 w-8 h-8 rounded-full border-[1px] border-solid" src="../../../assets/images/bot.png" alt="bot">
+                                <img class="mr-2 w-8 h-8 rounded-full border-[1px] border-solid" src="./assets/images/bot.png" alt="bot">
                                 <span>Bot</span>
                             </div>
                             <div 
@@ -26,13 +29,27 @@
                                 pTooltip="{{message?.date | dateFormat}}"
                                 tooltipPosition="{{message?.role === 'user' ? 'left' : 'right'}}"
                             >
-                                <p>{{message?.content}}</p>
+                                <p class="mb-2">{{message?.content}}</p>
+
+                                <p-tabView *ngIf="isResponse(message)" [scrollable]="true">
+                                    <p-tabPanel header="Chart">
+                                        {{message?.chart || 'Không có chart.'}}
+                                    </p-tabPanel>
+                                    <p-tabPanel header="SQL">
+                                        {{message?.sql || 'Không có sql.'}}
+                                    </p-tabPanel>
+                                    <p-tabPanel header="Data">
+                                        <app-chatbot-data [data]="message?.data"></app-chatbot-data>
+                                    </p-tabPanel>
+                                </p-tabView>
+
                                 <button 
                                     *ngIf="message?.role !== 'user'"
-                                    class="self-end mt-4 !w-6 !h-6 text-[18px] rounded-full bg-transparent hover:!bg-transparent !text-black" 
+                                    class="speak-btn self-end mt-2 !w-6 !h-6 text-[18px] rounded-full bg-transparent hover:!bg-transparent !text-black" 
                                     pButton pRipple 
-                                    icon="pi pi-volume-up"
-                                    (click)="read(message.content, voice)"
+                                    icon="{{isLoadingVoice && voiceIndex === i ? 'pi pi-spinner' : 'pi pi-volume-up'}}"
+                                    [disabled]="isLoadingVoice"
+                                    (click)="toggleRead(message.content, i)"
                                 ></button>
                             </div>
                         </div>

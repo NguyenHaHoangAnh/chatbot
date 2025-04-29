@@ -2,6 +2,12 @@
     background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3));
 }
 
+::ng-deep .speak-btn {
+    & .pi-spinner {
+        animation: l11 1s infinite linear;
+    }
+}
+
 ::ng-deep p-dropdown {
     & .p-dropdown {
         width: 100%;
@@ -23,6 +29,34 @@
     }
 }
 
+
+::ng-deep .p-tabview {
+    & .p-tabview-nav,
+    & .p-tabview-nav-link,
+    & .p-tabview-panels {
+        background-color: transparent !important;
+    }
+
+    & .p-tabview-nav-link {
+        padding: 8px !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    & .p-tabview-nav-btn {
+        width: 32px !important;
+        height: 32px !important;
+        background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
+        padding: 8px !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    & .p-tabview-panels {
+        padding: 8px 0 !important;
+    }
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 32px;
@@ -41,4 +75,8 @@
     40%{background-position:0% 100%, 50%   0%,100%  50%}
     60%{background-position:0%  50%, 50% 100%,100%   0%}
     80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+@keyframes l11{ 
+    100%{transform: rotate(1turn)}
 }

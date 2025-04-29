@@ -30,7 +30,7 @@ export class SpeechToTextService {
             const content = event.results[lastResult][0].transcript;
             this.zone.run(() => {
                 this.messageSubject.next(content);
-                console.log('[content]', content);
+                // console.log('[content]', content);
             });
         };
 

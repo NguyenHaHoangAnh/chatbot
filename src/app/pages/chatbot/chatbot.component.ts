@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Message } from 'src/app/models/message';
+import { Response } from 'src/app/models/response';
 import { ChatbotService } from 'src/app/services/chatbot.service';
 import { SpeechToTextService } from 'src/app/services/speechToText.service';
 import { TextToSpeechService } from 'src/app/services/textToSpeech.service';
@@ -11,12 +12,14 @@ import { TextToSpeechService } from 'src/app/services/textToSpeech.service';
   styleUrls: ['./chatbot.component.scss']
 })
 export class ChatbotComponent implements OnInit, OnDestroy {
-  messages: Message[] = [];
+  messages: any[] = [];
   message: string = '';
   recognition: any;
   isLoading: boolean = false;
   isRecording: boolean = false;
   isReading: boolean = false;
+  isLoadingVoice: boolean = false;
+  voiceIndex!: number;
   subscription!: Subscription;
   voices: any[] = [];
   voice: any;
@@ -35,6 +38,12 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.voices = await this.textToSpeechService.getVoices();
     this.voice = this.voices[0]
     // console.log('[voices]', this.voices);
+    const newMessage = new Message();
+    newMessage.role = 'bot';
+    newMessage.content = 'Xin chào! Tôi có thể giúp gì cho bạn?';
+    newMessage.date = new Date();
+    this.messages.push(newMessage);
+    this.scrollToEnd();
   }
 
   ngOnDestroy() {
@@ -76,19 +85,34 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.message = '';
 
     await this.chatbotService.getResponse(msg)
-      .then((response: Message) => {
+      .then(async (response: Response) => {
+        this.voiceIndex = this.messages.length - 1 + 1;
+        await this.toggleRead(response.content, this.messages.length - 1 + 1);
         this.messages.push(response);
-        // this.read(response.content);
         this.isLoading = false;
         this.scrollToEnd();
       });
   }
 
-  read(text: string, voice: any) {
+  isResponse(message: Message | Response): boolean {
+    if (message.role === 'user') return false;
+    return message instanceof Response;
+  }
+
+  async toggleRead(text: string, index: number) {
     if (!this.isReading) {
-      this.textToSpeechService.speak(text, voice);
+      this.voiceIndex = index;
+      this.isLoadingVoice = true;
+      await this.textToSpeechService.speak(text);
+      this.isLoadingVoice = false;
     } else {
       this.textToSpeechService.stop();
+      if (this.voiceIndex !== index) {
+        this.voiceIndex = index;
+        this.isLoadingVoice = true;
+        await this.textToSpeechService.speak(text);
+        this.isLoadingVoice = false;
+      }
     }
   }
 
