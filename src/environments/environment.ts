@@ -1,5 +1,5 @@
 export const environment = {
-    backendApiUrl: 'https://google.com',
+    backendApiUrl: 'http://10.4.203.88:8006/AI_Agent',
     textToSpeech: 'https://aiplatform.mobifone.ai/tts/convert-by-token',
 }
 
@@ -8,5 +8,5 @@ export const getApiRouterUrl = (apiName: string): string => {
 };
 
 export const apiRouter: any = {
-    chatbot: ''
+    chat_data: 'AI_AGENT',
 }

@@ -18,17 +18,20 @@
                             pTooltip="{{message?.date | dateFormat}}"
                             tooltipPosition="{{message?.role === 'user' ? 'left' : 'right'}}"
                         >
-                            <p class="mb-2">{{message?.content}}</p>
-
+                            <p class="mb-2">
+                                {{message?.role === 'user' ? message?.message : message?.final_answer}}
+                            </p>
+                            
+                            <!-- response tab -->
                             <p-tabView *ngIf="isResponse(message)" [scrollable]="true">
                                 <p-tabPanel header="Chart">
                                     {{message?.chart || 'Không có chart.'}}
                                 </p-tabPanel>
                                 <p-tabPanel header="SQL">
-                                    {{message?.sql || 'Không có sql.'}}
+                                    {{message?.sql_fix || 'Không có sql.'}}
                                 </p-tabPanel>
                                 <p-tabPanel header="Data">
-                                    <app-chatbot-data [data]="message?.data"></app-chatbot-data>
+                                    <app-chatbot-data [data]="message?.result_execute"></app-chatbot-data>
                                 </p-tabPanel>
                             </p-tabView>
 

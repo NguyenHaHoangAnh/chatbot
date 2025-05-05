@@ -8,6 +8,6 @@ export const getBackendApiUrl = (apiName?: string): string => {
 }
 
 export const apiName: any = {
-    CHATBOT: '',
+    CHAT_DATA: 'chat_data/',
     TTS: '',
 }

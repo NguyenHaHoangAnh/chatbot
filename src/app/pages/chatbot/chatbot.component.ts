@@ -38,11 +38,11 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.voices = await this.textToSpeechService.getVoices();
     this.voice = this.voices[0]
     // console.log('[voices]', this.voices);
-    const newMessage = new Message();
-    newMessage.role = 'bot';
-    newMessage.content = 'Xin chào! Tôi có thể giúp gì cho bạn?';
-    newMessage.date = new Date();
-    this.messages.push(newMessage);
+    // const newMessage = new Message();
+    // newMessage.role = 'bot';
+    // newMessage.message = 'Xin chào! Tôi có thể giúp gì cho bạn?';
+    // newMessage.date = new Date();
+    // this.messages.push(newMessage);
     this.scrollToEnd();
   }
 
@@ -76,18 +76,18 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const newMessage = new Message();
     newMessage.role = 'user';
-    newMessage.content = this.message.trim();
+    newMessage.message = this.message.trim();
     newMessage.date = new Date();
     // console.log('[message]', this.message);
     this.messages.push(newMessage);
+    newMessage.history_data.push(newMessage.message);
     this.scrollToEnd();
-    const msg = this.message;
     this.message = '';
 
-    await this.chatbotService.getResponse(msg)
+    await this.chatbotService.getResponse(newMessage)
       .subscribe(async (response: Response) => {
         this.voiceIndex = this.messages.length - 1 + 1;
-        await this.toggleRead(response.content, this.messages.length - 1 + 1);
+        await this.toggleRead(response.final_answer, this.messages.length - 1 + 1);
         this.messages.push(response);
         this.isLoading = false;
         this.scrollToEnd();
@@ -96,7 +96,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
   isResponse(message: Message | Response): boolean {
     if (message.role === 'user') return false;
-    return message instanceof Response;
+    return true;
   }
 
   async toggleRead(text: string, index: number) {

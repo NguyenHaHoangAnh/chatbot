@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
 import { AbstractCrudService } from './crud-service';
 import { HttpClient } from '@angular/common/http';
-import { apiName } from '../app-constants';
+import { apiName, getBackendApiUrl } from '../app-constants';
 import { Response } from '../models/response';
 
 @Injectable({
@@ -15,10 +15,12 @@ export class ChatbotService extends AbstractCrudService {
   }
 
   getApiName(): string {
-    return apiName.CHATBOT;
+    return apiName.CHAT_DATA;
   }
 
-  getResponse(message: string): any {
-    return this.post(message, this.getBaseUrl());
+  getResponse(msg: Message): any {
+    const { message, history_data, type_llm } = msg;
+    
+    return this.post({ message, history_data, type_llm }, getBackendApiUrl() + '/' + this.getApiName());
   }
 }

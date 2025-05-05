@@ -1,7 +1,7 @@
-import { Message } from "./message";
+import { BaseMessage } from "./base-message";
 
-export class Response extends Message {
-    chart?: any;
-    sql?: string;
-    data?: any;
+export class Response extends BaseMessage {
+    final_answer!: string;
+    sql_fix!: string;
+    result_execute!: any[];
 }
