@@ -85,7 +85,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.message = '';
 
     await this.chatbotService.getResponse(msg)
-      .then(async (response: Response) => {
+      .subscribe(async (response: Response) => {
         this.voiceIndex = this.messages.length - 1 + 1;
         await this.toggleRead(response.content, this.messages.length - 1 + 1);
         this.messages.push(response);

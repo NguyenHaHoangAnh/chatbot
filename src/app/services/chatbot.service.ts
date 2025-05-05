@@ -18,20 +18,7 @@ export class ChatbotService extends AbstractCrudService {
     return apiName.CHATBOT;
   }
 
-  getResponse(message: string) {
-    return new Promise<Response> ((resolve) => {
-      setTimeout(() => {
-        const result = new Response();
-        result.role = 'bot';
-        result.content = 'Hiện tại, có tổng cộng 68538 phạm nhân đang thụ án trong hệ thống quản lý trại giam. Bạn cần thêm thông tin gì khác không?';
-        result.date = new Date();
-        result.sql = 'SELECT COUNT(*) AS "total_prisoners" FROM "criminal_table" WHERE "PRISON_STATUS" = 1;';
-        result.data = [
-          { total_prisoner: 68538 },
-        ]
-
-        resolve(result);
-      }, 3000);
-    });
+  getResponse(message: string): any {
+    return this.post(message, this.getBaseUrl());
   }
 }
