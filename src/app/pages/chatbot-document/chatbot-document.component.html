@@ -2,7 +2,7 @@
     <div class="container flex flex-col items-center">
         <div class="flex items-center gap-4 p-4 w-full h-[72px]" style="box-shadow: var(--sharp-edge-top-shadow);">
             <!-- <img class="h-6" src="./assets/images/logo.png" alt="logo"> -->
-            <h3 class="text-[var(--text-secondary)] text-2xl font-bold">Trợ lý quản lý trại giam</h3>
+            <h3 class="text-[var(--text-secondary)] text-2xl font-bold">Trợ lý văn bản pháp luật</h3>
         </div>
         <div class="flex flex-col w-full h-[calc(100%-72px)] gap-4 p-4">
             <div #content class="flex-1 w-full overflow-y-auto">
@@ -23,17 +23,17 @@
                             </p>
                             
                             <!-- response tab -->
-                            <p-tabView *ngIf="isResponse(message)" [scrollable]="true">
+                            <!-- <p-tabView *ngIf="isResponse(message)" [scrollable]="true">
+                                <p-tabPanel header="Chart">
+                                    {{message?.chart || 'Không có chart.'}}
+                                </p-tabPanel>
                                 <p-tabPanel header="SQL">
                                     {{message?.sql_fix || 'Không có sql.'}}
                                 </p-tabPanel>
                                 <p-tabPanel header="Data">
                                     <app-chatbot-data [data]="message?.result_execute"></app-chatbot-data>
                                 </p-tabPanel>
-                                <p-tabPanel header="Chart">
-                                    {{message?.chart || 'Không có chart.'}}
-                                </p-tabPanel>
-                            </p-tabView>
+                            </p-tabView> -->
 
                             <button 
                                 *ngIf="message?.role !== 'user'"

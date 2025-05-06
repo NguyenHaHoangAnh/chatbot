@@ -13,6 +13,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
+import { SidebarModule } from 'primeng/sidebar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,10 @@ import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { AppMainComponent } from './layouts/app.main/app.main.component';
 import { DateFormatPipe } from './pipes/dateFormat.pipe';
 import { MessageService } from 'primeng/api';
-import { ChatbotDataComponent } from './pages/chatbot/chatbot-data/chatbot-data.component';
+import { ChatbotDataComponent } from './components/chatbot-data/chatbot-data.component';
+import { AppSidebarComponent } from './layouts/app.sidebar/app.sidebar.component';
+import { AppMenuitemComponent } from './layouts/app.menuitem/app.menuitem.component';
+import { ChatbotDocumentComponent } from './pages/chatbot-document/chatbot-document.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,10 @@ import { ChatbotDataComponent } from './pages/chatbot/chatbot-data/chatbot-data.
     ChatbotComponent,
     AppMainComponent,
     DateFormatPipe,
-    ChatbotDataComponent
+    ChatbotDataComponent,
+    AppSidebarComponent,
+    AppMenuitemComponent,
+    ChatbotDocumentComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +52,7 @@ import { ChatbotDataComponent } from './pages/chatbot/chatbot-data/chatbot-data.
     CardModule,
     TableModule,
     TabViewModule,
+    SidebarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

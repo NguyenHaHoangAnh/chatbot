@@ -8,19 +8,23 @@ import { Response } from '../models/response';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatbotService extends AbstractCrudService {
+export class ChatbotDocumentService extends AbstractCrudService {
 
   constructor(httpClient: HttpClient) {
     super(httpClient);
   }
 
   getApiName(): string {
-    return apiName.CHAT_DATA;
+    return apiName.CHAT;
   }
 
   getResponse(msg: Message): any {
-    const { message, history_data, type_llm } = msg;
+    const { message } = msg;
+    const user_id = '1';
+    const botname = 'bot';
+    const conversation_id = 'a';
+    const format_value = '1';
     
-    return this.post({ message, history_data, type_llm }, this.getBaseUrl());
+    return this.httpClient.post(this.getBaseUrl(), { user_id, botname, message, conversation_id, format_value }, {responseType: 'text'});
   }
 }

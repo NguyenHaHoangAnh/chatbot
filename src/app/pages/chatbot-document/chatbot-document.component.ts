@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Message } from 'src/app/models/message';
 import { Response } from 'src/app/models/response';
-import { ChatbotService } from 'src/app/services/chatbot.service';
+import { ChatbotDocumentService } from 'src/app/services/chatbot-document.service';
 import { SpeechToTextService } from 'src/app/services/speechToText.service';
 import { TextToSpeechService } from 'src/app/services/textToSpeech.service';
 
 @Component({
-  selector: 'app-chatbot',
-  templateUrl: './chatbot.component.html',
-  styleUrls: ['./chatbot.component.scss']
+  selector: 'app-chatbot-document',
+  templateUrl: './chatbot-document.component.html',
+  styleUrls: ['./chatbot-document.component.scss']
 })
-export class ChatbotComponent implements OnInit, OnDestroy {
+export class ChatbotDocumentComponent implements OnInit, OnDestroy {
   messages: any[] = [];
   message: string = '';
   recognition: any;
@@ -26,7 +26,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   @ViewChild('content') content: any;
 
   constructor(
-    private chatbotService: ChatbotService,
+    private chatbotDocumentService: ChatbotDocumentService,
     private speechToTextService: SpeechToTextService,
     private textToSpeechService: TextToSpeechService,
   ) {}
@@ -41,7 +41,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
     const newMessage = new Message();
     newMessage.role = 'bot';
-    newMessage.message = 'Xin chào! Tôi có thể giúp gì cho bạn về thông tin phạm nhân hoặc trại giam?';
+    newMessage.message = 'Xin chào! Tôi có thể giúp bạn tra cứu thông tin từ văn bản pháp luật.';
     newMessage.date = new Date();
 
     this.messages.push(newMessage);
@@ -86,15 +86,15 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     this.scrollToEnd();
     this.message = '';
 
-    await this.chatbotService.getResponse(newMessage)
+    await this.chatbotDocumentService.getResponse(newMessage)
       .subscribe(async (res: any) => {
         this.voiceIndex = this.messages.length - 1 + 1;
-        await this.toggleRead(res.final_answer, this.messages.length - 1 + 1);
+        await this.toggleRead(res, this.messages.length - 1 + 1);
 
         const response = new Response();
         response.role = 'bot',
         response.date = new Date();
-        response.message = res.final_answer;
+        response.message = res;
         response.sql_fix = res.sql_fix;
         response.result_execute = res.result_execute;
 

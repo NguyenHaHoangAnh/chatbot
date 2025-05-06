@@ -63,8 +63,8 @@ export class TextToSpeechService extends AbstractCrudService {
       paragraph: '0.25',
       voice: 'nam_bac',
     };
-
-    return this.post(body, environment.textToSpeech);
+    
+    return this.post(body, this.getBaseUrl() + 'convert-by-token');
   }
   
   downloadAudio(url: string): Promise<any> {

@@ -2,6 +2,12 @@
 @import "primeicons/primeicons.css";
 @import "tailwind.css";
 
+:root {
+    --text-secondary: #5d5d5d;
+    --border-sharp: #0000000d;
+    --sharp-edge-top-shadow: 0 1px 0 var(--border-sharp);
+}
+
 * {
     margin: 0;
     padding: 0;
