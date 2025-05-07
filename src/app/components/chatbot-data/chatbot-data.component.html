@@ -1,7 +1,10 @@
 <p-table 
     [columns]="columns" 
     [value]="data" 
+    [paginator]="true"
+    [rows]="10"
     [resizableColumns]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
     *ngIf="data; else nodata"
 >
     <ng-template pTemplate="header" let-columns>

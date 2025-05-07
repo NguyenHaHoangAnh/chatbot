@@ -31,7 +31,8 @@
                                     <app-chatbot-data [data]="message?.result_execute"></app-chatbot-data>
                                 </p-tabPanel>
                                 <p-tabPanel header="Chart">
-                                    {{message?.chart || 'Không có chart.'}}
+                                    <img *ngIf="message?.chart; else noChart" [src]="message.chart" alt="chart">
+                                    <ng-template #noChart>Không có chart</ng-template>
                                 </p-tabPanel>
                             </p-tabView>
 

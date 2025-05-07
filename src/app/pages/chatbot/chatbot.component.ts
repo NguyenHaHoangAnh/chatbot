@@ -97,6 +97,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
         response.message = res.final_answer;
         response.sql_fix = res.sql_fix;
         response.result_execute = res.result_execute;
+        response.chart = res.chart;
 
         this.messages.push(response);
         this.isLoading = false;
