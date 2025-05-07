@@ -64,7 +64,7 @@ export class TextToSpeechService extends AbstractCrudService {
       voice: 'nam_bac',
     };
     
-    return this.post(body, this.getBaseUrl() + 'convert-by-token');
+    return this.post(body, this.getBaseUrl());
   }
   
   downloadAudio(url: string): Promise<any> {

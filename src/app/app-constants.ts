@@ -9,9 +9,9 @@ export const getBackendApiUrl = (apiName?: string): string => {
 }
 
 export const apiName: any = {
-    CHAT_DATA: 'chat_data/',
-    TTS: 'tts/',
-    CHAT: 'chat/',
+    CHAT_DATA: 'AI_Agent/chat_data',
+    CHAT: 'completions/chat',
+    TTS: 'tts/convert-by-token',
 }
 
 export const sidebarItems: any = [

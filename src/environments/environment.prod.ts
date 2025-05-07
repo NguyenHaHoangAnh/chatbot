@@ -8,7 +8,7 @@ export const getApiRouterUrl = (apiName: string): string => {
 };
 
 export const apiRouter: any = {
-    chat_data: '${AI_AGENT_BACKEND_CHAT_DATA}',
-    chat: '${AI_AGENT_BACKEND_CHAT}',
+    AI_Agent: '${AI_AGENT_BACKEND_CHAT_DATA}',
+    completions: '${AI_AGENT_BACKEND_CHAT}',
     tts: '${AI_AGENT_BACKEND_TTS}',
 }
