@@ -89,7 +89,7 @@ export class ChatbotDocumentComponent implements OnInit, OnDestroy {
     await this.chatbotDocumentService.getResponse(newMessage)
       .subscribe(async (res: any) => {
         this.voiceIndex = this.messages.length - 1 + 1;
-        await this.toggleRead(res, this.messages.length - 1 + 1);
+        // await this.toggleRead(res, this.messages.length - 1 + 1);
 
         const response = new Response();
         response.role = 'bot',
